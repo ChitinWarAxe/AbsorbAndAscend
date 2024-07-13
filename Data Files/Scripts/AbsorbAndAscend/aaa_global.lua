@@ -4,6 +4,8 @@ local core = require('openmw.core')
 
 print("Global script loaded!") -- Debug message
 
+local shiftAltPressed = false
+
 local function getEnchantment(item)
     local record = item.type.record(item)
     if record and record.enchant then
@@ -13,10 +15,11 @@ local function getEnchantment(item)
 end
 
 local function handleItemUsage(item, actor)
+    if not shiftAltPressed then
+        return
+    end
+
     print("Item usage detected!") -- Debug message
-    
-    -- Check if the actor is the player
-    --local player = nearby.getPlayer()
 
     local itemType = item.type
     local itemRecord = itemType.record(item)
@@ -62,3 +65,13 @@ I.ItemUsage.addHandlerForType(types.Weapon, handleItemUsage)
 I.ItemUsage.addHandlerForType(types.Armor, handleItemUsage)
 I.ItemUsage.addHandlerForType(types.Clothing, handleItemUsage)
 
+local function onShiftAltStateChanged(data)
+    shiftAltPressed = data.pressed
+    print("Shift+Alt state changed: " .. tostring(shiftAltPressed))
+end
+
+return {
+    eventHandlers = {
+        shiftAltStateChanged = onShiftAltStateChanged
+    }
+}

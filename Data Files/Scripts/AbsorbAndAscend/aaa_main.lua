@@ -2,8 +2,23 @@ local self = require('openmw.self')
 local core = require('openmw.core')
 local types = require('openmw.types')
 local ui = require('openmw.ui')
+local input = require('openmw.input')
 
 print("Local script loaded!") -- Debug message
+
+local function isShiftAltPressed()
+    return input.isShiftPressed() and input.isAltPressed()
+end
+
+local lastShiftAltState = false
+
+local function checkShiftAltState()
+    local currentState = isShiftAltPressed()
+    if currentState ~= lastShiftAltState then
+        lastShiftAltState = currentState
+        core.sendGlobalEvent('shiftAltStateChanged', {pressed = currentState})
+    end
+end
 
 local function printEnchantmentInfo(data)
     print("Received enchantmentUsed event") -- Debug message
@@ -40,5 +55,8 @@ end
 return {
     eventHandlers = {
         enchantmentUsed = printEnchantmentInfo
+    },
+    engineHandlers = {
+        onUpdate = checkShiftAltState
     }
 }

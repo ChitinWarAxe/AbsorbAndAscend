@@ -1,6 +1,9 @@
 local I = require('openmw.interfaces')
 local types = require('openmw.types')
 local core = require('openmw.core')
+--local aaaFunc = require('scripts.absorbandascend.aaa_func')
+
+--print('Absorb & Ascend: ' .. getSettingAAAToggle())
 
 local shiftAltPressed = false
 
@@ -29,6 +32,11 @@ local function handleItemUsage(item, actor)
     local enchantment = getEnchantment(item)
     if enchantment then
 
+        if (enchantment.type == 4) then
+            print('scroll oder so')
+            return
+        end
+
         enchantmentInfo.enchantmentId = enchantment.id
         enchantmentInfo.enchantmentType = enchantment.type
         enchantmentInfo.charge = enchantment.charge
@@ -55,7 +63,6 @@ local function handleItemUsage(item, actor)
     end
 end
 
--- Add handlers for Weapons, Armors, and Clothing
 I.ItemUsage.addHandlerForType(types.Weapon, handleItemUsage)
 I.ItemUsage.addHandlerForType(types.Armor, handleItemUsage)
 I.ItemUsage.addHandlerForType(types.Clothing, handleItemUsage)

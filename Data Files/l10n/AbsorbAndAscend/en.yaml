@@ -1,0 +1,22 @@
+name: "Absorb & Ascend"
+description: "Destroy magic weapons, armor or clothing and absorb their power, ascending in the magic school of the enchantment."
+
+settingsTitle: "Options"
+settingsDesc: "Settings for this mod"
+
+aaaToggleName: "Enable/Disable"
+aaaToggleDesc: "Enable or disable the ability to destroy items and absorb their power."
+
+aaaProtectedItemsName: "Protected Items"
+aaaProtectedItemsDesc: "List of IDs of items that cannot be destroyed, for example the plot relevant Wraithguard, Sunder and Keening."
+
+aaaCustomKeyToggleName: "Use custom keys"
+aaaCustomKeyToggleDesc: "Instead of Shift+Alt, use the keys configured below. If a key is left empty, it will be ignored."
+
+aaaCustomKey1Name: "Custom key 1"
+aaaCustomKey1Desc: "Set your custom key 1 here."
+
+aaaCustomKey2Name: "Custom key 2"
+aaaCustomKey2Desc: "Set your custom key 2 here."
+
+aaaAbsorbMessage: "You destroyed your {name} and absorbed its power."

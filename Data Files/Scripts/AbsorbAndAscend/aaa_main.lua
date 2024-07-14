@@ -20,43 +20,53 @@ local function checkShiftAltState()
     end
 end
 
-local function calculateAndApplyExperience(data)
-
+local function getCalculatedTotalExperience(data)
+    
+    print('type: ' .. data.enchantmentType)
+    
+    local totalExp = 0
+    
     local enchantSkill = types.NPC.stats.skills.enchant(self).modified
     local luck = types.NPC.stats.attributes.luck(self).modified
     local intelligence = types.NPC.stats.attributes.intelligence(self).modified
-
-    if data.enchantmentType == 1 or data.enchantmentType == 2 then -- On Strike or On Use
-       
-        ambient.playSound("swallow")
-        ui.showMessage('You destroyed your item and absorbed its power!')
     
-        -- local baseExp = (data.charge + data.cost) * (1 + enchantSkill/10) * (1 + luck/10)
-        -- (Enchant + Intelligence/5 + Luck/10
+    if data.enchantmentType == 1 or data.enchantmentType == 2 then
+    
         local itemExpValue = data.charge/10 + data.cost
         local attributeMultiplier = 1 + ((((intelligence+enchantSkill)/5)+(luck/10))/100)
-        local baseExp = itemExpValue * attributeMultiplier
-        local expPerEffect = baseExp / #data.effects
+        totalExp = itemExpValue * attributeMultiplier
         
-        --print('charge + cost base: ' .. (data.charge + data.cost) )
-       -- print('int+ench und luck:' .. ((intelligence+enchantSkill)/5)  + (luck/10))
-        print('item exp value: ' .. itemExpValue)
-        print('multiplier: ' .. attributeMultiplier )
+        print("Experience: " .. totalExp)
+    end
+    
+    return totalExp
+end
+
+local function calculateAndApplyExperience(data)
+
+    local calculatedTotalExperience = getCalculatedTotalExperience(data)
+    
+    print('calculatedTotalExperience ' .. calculatedTotalExperience)
+
+    if calculatedTotalExperience ~= 0 then
+       
+        ambient.playSound("swallow")
+        ui.showMessage('You destroyed your item and absorbed its power!')        
         
-        print("Experience: " .. baseExp)
+        local expPerEffect = calculatedTotalExperience / #data.effects
+        
         print("Experience per Effect: " .. expPerEffect)
         
         for i, effect in ipairs(data.effects) do
             local skill = types.NPC.stats.skills[effect.school](self)
-            
-            -- Use SkillProgression.skillUsed instead of directly modifying skill.progress
+
             I.SkillProgression.skillUsed(effect.school, {
                 skillGain = expPerEffect
             })
 
         end
     else
-        print("Enchantment type does not grant experience (Constant Effect or Cast Once)")
+        print("Enchantment type does not grant experience.")
     end
 end
 

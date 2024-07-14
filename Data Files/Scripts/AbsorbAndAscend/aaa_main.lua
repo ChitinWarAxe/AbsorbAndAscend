@@ -3,8 +3,8 @@ local core = require('openmw.core')
 local types = require('openmw.types')
 local ui = require('openmw.ui')
 local input = require('openmw.input')
-
-print("Local script loaded!") -- Debug message
+local I = require('openmw.interfaces')
+local ambient = require('openmw.ambient')
 
 local function isShiftAltPressed()
     return input.isShiftPressed() and input.isAltPressed()
@@ -20,41 +20,53 @@ local function checkShiftAltState()
     end
 end
 
-local function printEnchantmentInfo(data)
-    print("Received enchantmentUsed event") -- Debug message
-    print("Item used: " .. data.itemName .. " (Type: " .. data.itemType .. ")")
-    
-    if data.enchantmentId then
-        print("Enchanting...!")
-        print("Enchantment ID: " .. tostring(data.enchantmentId))
-        print("Enchantment Type: " .. tostring(data.enchantmentType))
-        print("Total Charge: " .. tostring(data.charge))
-        print("Cost: " .. tostring(data.cost))
-        print("Auto Calculate: " .. tostring(data.autocalcFlag))
-        print("Magic Effects:")
-        
-        for i, effect in ipairs(data.effects) do
-            print(string.format("  Effect %d: %s", i, effect.id))
-            print(string.format("    School: %s", tostring(effect.school)))
-            print(string.format("    Magnitude: %d - %d", effect.magnitudeMin, effect.magnitudeMax))
-            print(string.format("    Duration: %d", effect.duration))
-            print(string.format("    Area: %d", effect.area))
-            if effect.affectedAttribute then
-                print(string.format("    Affected Attribute: %s", effect.affectedAttribute))
-            end
-            if effect.affectedSkill then
-                print(string.format("    Affected Skill: %s", effect.affectedSkill))
-            end
-        end
-    end
+local function calculateAndApplyExperience(data)
 
     local enchantSkill = types.NPC.stats.skills.enchant(self).modified
-    print("Player's Enchant Skill: " .. tostring(enchantSkill))
+    local luck = types.NPC.stats.attributes.luck(self).modified
+    local intelligence = types.NPC.stats.attributes.intelligence(self).modified
+
+    if data.enchantmentType == 1 or data.enchantmentType == 2 then -- On Strike or On Use
+       
+        ambient.playSound("swallow")
+        ui.showMessage('You destroyed your item and absorbed its power!')
+    
+        -- local baseExp = (data.charge + data.cost) * (1 + enchantSkill/10) * (1 + luck/10)
+        -- (Enchant + Intelligence/5 + Luck/10
+        local itemExpValue = data.charge/10 + data.cost
+        local attributeMultiplier = 1 + ((((intelligence+enchantSkill)/5)+(luck/10))/100)
+        local baseExp = itemExpValue * attributeMultiplier
+        local expPerEffect = baseExp / #data.effects
+        
+        --print('charge + cost base: ' .. (data.charge + data.cost) )
+       -- print('int+ench und luck:' .. ((intelligence+enchantSkill)/5)  + (luck/10))
+        print('item exp value: ' .. itemExpValue)
+        print('multiplier: ' .. attributeMultiplier )
+        
+        print("Experience: " .. baseExp)
+        print("Experience per Effect: " .. expPerEffect)
+        
+        for i, effect in ipairs(data.effects) do
+            local skill = types.NPC.stats.skills[effect.school](self)
+            
+            -- Use SkillProgression.skillUsed instead of directly modifying skill.progress
+            I.SkillProgression.skillUsed(effect.school, {
+                skillGain = expPerEffect
+            })
+
+        end
+    else
+        print("Enchantment type does not grant experience (Constant Effect or Cast Once)")
+    end
+end
+
+local function printEnchantmentInfo(data)
+
 end
 
 return {
     eventHandlers = {
-        enchantmentUsed = printEnchantmentInfo
+        enchantmentUsed = calculateAndApplyExperience
     },
     engineHandlers = {
         onUpdate = checkShiftAltState

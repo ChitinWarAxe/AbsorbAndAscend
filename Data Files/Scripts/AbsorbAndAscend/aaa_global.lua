@@ -2,8 +2,6 @@ local I = require('openmw.interfaces')
 local types = require('openmw.types')
 local core = require('openmw.core')
 
-print("Global script loaded!") -- Debug message
-
 local shiftAltPressed = false
 
 local function getEnchantment(item)
@@ -19,8 +17,6 @@ local function handleItemUsage(item, actor)
         return
     end
 
-    print("Item usage detected!") -- Debug message
-
     local itemType = item.type
     local itemRecord = itemType.record(item)
     local itemName = itemRecord.name
@@ -32,7 +28,7 @@ local function handleItemUsage(item, actor)
 
     local enchantment = getEnchantment(item)
     if enchantment then
-        print("Enchanted item detected!") -- Debug message
+
         enchantmentInfo.enchantmentId = enchantment.id
         enchantmentInfo.enchantmentType = enchantment.type
         enchantmentInfo.charge = enchantment.charge
@@ -54,9 +50,8 @@ local function handleItemUsage(item, actor)
             })
         end
         actor:sendEvent('enchantmentUsed', enchantmentInfo)
-        print("Sent enchantmentUsed event to player") -- Debug message
-    else
-        print("Item is not enchanted") -- Debug message
+        item:remove()
+        return false
     end
 end
 

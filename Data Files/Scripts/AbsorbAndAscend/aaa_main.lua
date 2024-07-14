@@ -29,15 +29,23 @@ local function getCalculatedTotalExperience(data)
     local enchantSkill = types.NPC.stats.skills.enchant(self).modified
     local luck = types.NPC.stats.attributes.luck(self).modified
     local intelligence = types.NPC.stats.attributes.intelligence(self).modified
+    local attributeMultiplier = 1 + ((((intelligence+enchantSkill)/5)+(luck/10))/100)
+    
+    print('multiplier ' .. attributeMultiplier)
     
     if data.enchantmentType == 1 or data.enchantmentType == 2 then
     
-        local itemExpValue = data.charge/10 + data.cost
-        local attributeMultiplier = 1 + ((((intelligence+enchantSkill)/5)+(luck/10))/100)
+        local itemExpValue = data.charge/20 + data.cost/2
+        print('itemExp ' .. itemExpValue)
         totalExp = itemExpValue * attributeMultiplier
         
-        print("Experience: " .. totalExp)
+    elseif data.enchantmentType == 3 then
+        
+        totalExp = (20 + (#data.effects * 5) ) * attributeMultiplier
+        
     end
+    
+    print("Experience: " .. totalExp)
     
     return totalExp
 end
@@ -61,7 +69,13 @@ local function calculateAndApplyExperience(data)
             local skill = types.NPC.stats.skills[effect.school](self)
 
             I.SkillProgression.skillUsed(effect.school, {
-                skillGain = expPerEffect
+                skillGain = expPerEffect,
+                useType = 0
+            })
+
+            I.SkillProgression.skillUsed('enchant', {
+                skillGain = 1,
+                useType = 0
             })
 
         end

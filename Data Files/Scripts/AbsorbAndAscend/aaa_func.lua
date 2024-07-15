@@ -23,18 +23,7 @@ function getSettingCustomKey2()
     return settings:get("aaaCustomKey2")
 end
 
--- Helper function to split the protected items string into a table
-function getProtectedItemsTable()
-    local itemsString = getSettingProtectedItems()
-    local items = {}
-    for item in string.gmatch(itemsString, "([^,]+)") do
-        items[string.trim(item)] = true
-    end
-    return items
-end
-
--- Helper function to check if an item is protected
-function isItemProtected(itemRecordName)
-    local protectedItems = getProtectedItemsTable()
-    return protectedItems[string.lower(itemRecordName)] ~= nil
+function isItemProtected(itemRecordId)
+    local protectedItems = getSettingProtectedItems()
+    return string.find(string.lower(protectedItems), string.lower(itemRecordId)) ~= nil
 end

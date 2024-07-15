@@ -22,19 +22,14 @@ local function handleItemUsage(item, actor)
     local itemType = item.type
     local itemRecord = itemType.record(item)
     local itemName = itemRecord.name
-    
-    print(getSettingProtectedItems())
-    
-    --if isItemProtected(itemRecord.id) then
-    --    print('No no, don not eat that!')
-    --    return
-    --end    
+
+    if isItemProtected(itemRecord.id) then
+        return
+    end    
     
     if not shiftAltPressed then
         return
     end
-    
-    print(itemRecord.id)
 
     local enchantmentInfo = {
         itemName = itemName,

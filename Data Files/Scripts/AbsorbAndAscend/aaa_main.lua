@@ -93,6 +93,6 @@ return {
         enchantmentUsed = calculateAndApplyExperience
     },
     engineHandlers = {
-        onUpdate = checkShiftAltState
+        onFrame = checkShiftAltState
     }
 }

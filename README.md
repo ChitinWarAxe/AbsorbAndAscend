@@ -1,4 +1,4 @@
-# AbsorbAndAscend
+# Absorb & Ascend
 Destroy a magic item and absorb it's power!
 
 ## Features

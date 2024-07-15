@@ -1,6 +1,7 @@
 local storage = require('openmw.storage')
 
 --local settings = storage.playerSection("SettingsAbsorbAndAscend")
+local settings = storage.globalSection('SettingsAbsorbAndAscend')
 
 function getSettingAAAToggle()
     return settings:get("aaaToggle")
@@ -33,7 +34,7 @@ function getProtectedItemsTable()
 end
 
 -- Helper function to check if an item is protected
-function isItemProtected(itemId)
+function isItemProtected(itemRecordName)
     local protectedItems = getProtectedItemsTable()
-    return protectedItems[string.lower(itemId)] ~= nil
+    return protectedItems[string.lower(itemRecordName)] ~= nil
 end

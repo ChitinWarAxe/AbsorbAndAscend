@@ -1,4 +1,5 @@
 PLAYER: Scripts/AbsorbAndAscend/aaa_main.lua
 PLAYER: Scripts/AbsorbAndAscend/aaa_mcm.lua
+GLOBAL: Scripts/AbsorbAndAscend/aaa_mcm_global.lua
 GLOBAL: Scripts/AbsorbAndAscend/aaa_func.lua
 GLOBAL: Scripts/AbsorbAndAscend/aaa_global.lua

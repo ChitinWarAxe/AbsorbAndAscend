@@ -1,9 +1,7 @@
 local I = require('openmw.interfaces')
 local types = require('openmw.types')
 local core = require('openmw.core')
---local aaaFunc = require('scripts.absorbandascend.aaa_func')
-
---print('Absorb & Ascend: ' .. getSettingAAAToggle())
+local aaaFunc = require('scripts.absorbandascend.aaa_func')
 
 local shiftAltPressed = false
 
@@ -16,13 +14,27 @@ local function getEnchantment(item)
 end
 
 local function handleItemUsage(item, actor)
-    if not shiftAltPressed then
+  
+    if not getSettingAAAToggle() then
         return
     end
-
+    
     local itemType = item.type
     local itemRecord = itemType.record(item)
     local itemName = itemRecord.name
+    
+    print(getSettingProtectedItems())
+    
+    --if isItemProtected(itemRecord.id) then
+    --    print('No no, don not eat that!')
+    --    return
+    --end    
+    
+    if not shiftAltPressed then
+        return
+    end
+    
+    print(itemRecord.id)
 
     local enchantmentInfo = {
         itemName = itemName,
@@ -41,7 +53,7 @@ local function handleItemUsage(item, actor)
         enchantmentInfo.enchantmentType = enchantment.type
         enchantmentInfo.charge = enchantment.charge
         enchantmentInfo.cost = enchantment.cost
-        enchantmentInfo.autocalcFlag = enchantment.autocalcFlag
+        --enchantmentInfo.autocalcFlag = enchantment.autocalcFlag
         enchantmentInfo.effects = {}
 
         for i, effect in ipairs(enchantment.effects) do
@@ -63,17 +75,22 @@ local function handleItemUsage(item, actor)
     end
 end
 
-I.ItemUsage.addHandlerForType(types.Weapon, handleItemUsage)
-I.ItemUsage.addHandlerForType(types.Armor, handleItemUsage)
-I.ItemUsage.addHandlerForType(types.Clothing, handleItemUsage)
+if getSettingAAAToggle() then
+    I.ItemUsage.addHandlerForType(types.Weapon, handleItemUsage)
+    I.ItemUsage.addHandlerForType(types.Armor, handleItemUsage)
+    I.ItemUsage.addHandlerForType(types.Clothing, handleItemUsage)
+end
 
 local function onShiftAltStateChanged(data)
     shiftAltPressed = data.pressed
     print("Shift+Alt state changed: " .. tostring(shiftAltPressed))
 end
 
-return {
-    eventHandlers = {
-        shiftAltStateChanged = onShiftAltStateChanged
+if getSettingAAAToggle() then
+    return {
+        eventHandlers = {
+            shiftAltStateChanged = onShiftAltStateChanged
+        }
     }
-}
+end
+

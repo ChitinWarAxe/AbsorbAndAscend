@@ -21,27 +21,6 @@ I.Settings.registerGroup {
             description = "aaaProtectedItemsDesc",
             default = "sunder, keening, wraithguard",
             renderer = "textLine"
-        },
-        {
-            key = "aaaCustomKeyToggle",
-            name = "aaaCustomKeyToggleName",
-            description = "aaaCustomKeyToggleDesc",
-            default = false,
-            renderer = "checkbox"
-        },
-        {
-            key = "aaaCustomKey1",
-            name = "aaaCustomKey1Name",
-            description = "aaaCustomKey1Desc",
-            default = "Shift",
-            renderer = "textLine"
-        },
-        {
-            key = "aaaCustomKey2",
-            name = "aaaCustomKey2Name",
-            description = "aaaCustomKey2Desc",
-            default = "",
-            renderer = "textLine"
-        },
+        }
     }
 }

@@ -3,7 +3,7 @@ local types = require('openmw.types')
 local core = require('openmw.core')
 local aaaFunc = require('scripts.absorbandascend.aaa_func')
 
-local shiftAltPressed = false
+local activationPressed = false
 
 local function getEnchantment(item)
     local record = item.type.record(item)
@@ -27,7 +27,7 @@ local function handleItemUsage(item, actor)
         return
     end    
     
-    if not shiftAltPressed then
+    if not activationPressed then
         return
     end
 
@@ -48,7 +48,6 @@ local function handleItemUsage(item, actor)
         enchantmentInfo.enchantmentType = enchantment.type
         enchantmentInfo.charge = enchantment.charge
         enchantmentInfo.cost = enchantment.cost
-        --enchantmentInfo.autocalcFlag = enchantment.autocalcFlag
         enchantmentInfo.effects = {}
 
         for i, effect in ipairs(enchantment.effects) do
@@ -76,16 +75,15 @@ if getSettingAAAToggle() then
     I.ItemUsage.addHandlerForType(types.Clothing, handleItemUsage)
 end
 
-local function onShiftAltStateChanged(data)
-    shiftAltPressed = data.pressed
-    print("Shift+Alt state changed: " .. tostring(shiftAltPressed))
+local function onActivationStateChanged(data)
+    activationPressed = data.pressed
+    print("Activation state changed: " .. tostring(activationPressed))
 end
 
 if getSettingAAAToggle() then
     return {
         eventHandlers = {
-            shiftAltStateChanged = onShiftAltStateChanged
+            activationStateChanged = onActivationStateChanged
         }
     }
 end
-

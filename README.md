@@ -19,4 +19,4 @@ Also due to how the game engine works, it isnt possible to gain more than one le
 
 ## Compatibility
 
-I noticed some interference with mods that alter the amount of gained experience, like [“Class Restricted Leveling”](https://www.nexusmods.com/morrowind/mods/54832) and [“Skill Uses Scaled”](https://www.nexusmods.com/morrowind/mods/54267). The script still works, though.
+I noticed some interference with mods that alter the amount of gained experience, like [“Skill Uses Scaled”](https://www.nexusmods.com/morrowind/mods/54267). The script still works, though.

@@ -5,18 +5,47 @@ local ui = require('openmw.ui')
 local input = require('openmw.input')
 local I = require('openmw.interfaces')
 local ambient = require('openmw.ambient')
+local aaaFuncPlayer = require('scripts.absorbandascend.aaa_func_player')
 
-local function isShiftAltPressed()
-    return input.isShiftPressed() and input.isAltPressed()
+local activationPressed = false
+
+local function onKeyPress(e)
+    local code = e.code
+    local key1 = getSettingCustomKey1()
+    local key2 = getSettingCustomKey2()
+    
+    if getSettingCustomKeyToggle() then
+        if (code == key1) or (code == key2) then
+            activationPressed = true
+            core.sendGlobalEvent('activationStateChanged', {pressed = true})
+        end
+    else
+        if (code == input.KEY.LeftShift or code == input.KEY.RightShift) and input.isAltPressed() then
+            activationPressed = true
+            core.sendGlobalEvent('activationStateChanged', {pressed = true})
+        elseif (code == input.KEY.LeftAlt or code == input.KEY.RightAlt) and input.isShiftPressed() then
+            activationPressed = true
+            core.sendGlobalEvent('activationStateChanged', {pressed = true})
+        end
+    end
 end
 
-local lastShiftAltState = false
-
-local function checkShiftAltState()
-    local currentState = isShiftAltPressed()
-    if currentState ~= lastShiftAltState then
-        lastShiftAltState = currentState
-        core.sendGlobalEvent('shiftAltStateChanged', {pressed = currentState})
+local function onKeyRelease(e)
+    local code = e.code
+    local key1 = getSettingCustomKey1()
+    local key2 = getSettingCustomKey2()
+    
+    if getSettingCustomKeyToggle() then
+        if (code == key1) or (code == key2) then
+            activationPressed = false
+            core.sendGlobalEvent('activationStateChanged', {pressed = false})
+        end
+    else
+        if (code == input.KEY.LeftShift or code == input.KEY.RightShift or
+            code == input.KEY.LeftAlt or code == input.KEY.RightAlt) and not (input.isShiftPressed() and input.isAltPressed()) then
+            activationPressed = false
+            core.sendGlobalEvent('activationStateChanged', {pressed = false})
+        end
     end
 end
 
@@ -58,7 +87,7 @@ local function calculateAndApplyExperience(data)
 
     if calculatedTotalExperience ~= 0 then
        
-        ambient.playSound("swallow")
+        ambient.playSound("enchant success")
         ui.showMessage('You destroyed your item and absorbed its power!')        
         
         local expPerEffect = calculatedTotalExperience / #data.effects
@@ -66,6 +95,7 @@ local function calculateAndApplyExperience(data)
         print("Experience per Effect: " .. expPerEffect)
         
         for i, effect in ipairs(data.effects) do
+        
             local skill = types.NPC.stats.skills[effect.school](self)
 
             I.SkillProgression.skillUsed(effect.school, {
@@ -93,6 +123,8 @@ return {
         enchantmentUsed = calculateAndApplyExperience
     },
     engineHandlers = {
-        onFrame = checkShiftAltState
+        onKeyPress = onKeyPress,
+        onKeyRelease = onKeyRelease
     }
 }
+

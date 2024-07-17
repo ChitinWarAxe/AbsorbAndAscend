@@ -19,4 +19,4 @@ aaaCustomKey1Desc: "Set your custom key 1 here."
 aaaCustomKey2Name: "Custom key 2"
 aaaCustomKey2Desc: "Set your custom key 2 here."
 
-aaaAbsorbMessage: "You destroyed your {name} and absorbed its power."
+aaaAbsorbMessage: "You destroyed your {name} and absorbed its power!"

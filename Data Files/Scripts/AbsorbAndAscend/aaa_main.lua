@@ -86,9 +86,6 @@ local function calculateAndApplyExperience(data)
     print('calculatedTotalExperience ' .. calculatedTotalExperience)
 
     if calculatedTotalExperience ~= 0 then
-       
-        ambient.playSound("enchant success")
-        ui.showMessage('You destroyed your item and absorbed its power!')        
         
         local expPerEffect = calculatedTotalExperience / #data.effects
         
@@ -109,6 +106,9 @@ local function calculateAndApplyExperience(data)
             })
 
         end
+        
+        itemAbsorbAlert(data.itemName)
+        
     else
         print("Enchantment type does not grant experience.")
     end

@@ -13,8 +13,16 @@ local function getEnchantment(item)
     return nil
 end
 
+local function isThrownWeaponOrAmmo(item)
+    if item.type == types.Weapon then
+        local weaponType = types.Weapon.record(item).type
+        -- Weapon types: 11 = Thrown, 12 = Arrow, 13 = Bolt
+        return weaponType == 11 or weaponType == 12 or weaponType == 13
+    end
+    return false
+end
+
 local function handleItemUsage(item, actor)
-  
     if not getSettingAAAToggle() then
         return
     end
@@ -31,6 +39,10 @@ local function handleItemUsage(item, actor)
         return
     end
 
+    if isThrownWeaponOrAmmo(item) then
+        return  -- Ignore thrown weapons, arrows, and bolts
+    end
+
     local enchantmentInfo = {
         itemName = itemName,
         itemType = tostring(itemType),
@@ -38,7 +50,6 @@ local function handleItemUsage(item, actor)
 
     local enchantment = getEnchantment(item)
     if enchantment then
-
         if (enchantment.type == 4) then
             print('scroll oder so')
             return

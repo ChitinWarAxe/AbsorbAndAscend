@@ -1,6 +1,5 @@
 local storage = require('openmw.storage')
 
---local settings = storage.playerSection("SettingsAbsorbAndAscend")
 local settings = storage.globalSection('SettingsAbsorbAndAscend')
 
 function getSettingAAAToggle()

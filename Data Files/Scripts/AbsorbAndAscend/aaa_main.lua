@@ -1,10 +1,8 @@
 local self = require('openmw.self')
 local core = require('openmw.core')
 local types = require('openmw.types')
-local ui = require('openmw.ui')
 local input = require('openmw.input')
 local I = require('openmw.interfaces')
-local ambient = require('openmw.ambient')
 local aaaFuncPlayer = require('scripts.absorbandascend.aaa_func_player')
 
 local activationPressed = false
@@ -62,30 +60,23 @@ end
 
 local function getCalculatedTotalExperience(data)
     
-    print('type: ' .. data.enchantmentType)
-    
     local totalExp = 0
     
     local enchantSkill = types.NPC.stats.skills.enchant(self).modified
     local luck = types.NPC.stats.attributes.luck(self).modified
     local intelligence = types.NPC.stats.attributes.intelligence(self).modified
     local attributeMultiplier = 1 + ((((intelligence+enchantSkill)/5)+(luck/10))/100)
-    
-    print('multiplier ' .. attributeMultiplier)
-    
-    if data.enchantmentType == 1 or data.enchantmentType == 2 then
+
+    if data.enchantmentType == 1 or data.enchantmentType == 2 then -- on use, on strike enchantments
     
         local itemExpValue = data.charge/20 + data.cost/2
-        print('itemExp ' .. itemExpValue)
         totalExp = itemExpValue * attributeMultiplier
         
-    elseif data.enchantmentType == 3 then
+    elseif data.enchantmentType == 3 then -- constant effect enchantments
         
         totalExp = (20 + (#data.effects * 5) ) * attributeMultiplier
         
     end
-    
-    print("Experience: " .. totalExp)
     
     return totalExp
 end
@@ -93,8 +84,6 @@ end
 local function calculateAndApplyExperience(data)
 
     local calculatedTotalExperience = getCalculatedTotalExperience(data)
-    
-    print('calculatedTotalExperience ' .. calculatedTotalExperience)
 
     if calculatedTotalExperience ~= 0 then
         
@@ -119,9 +108,7 @@ local function calculateAndApplyExperience(data)
         end
         
         itemAbsorbAlert(data.itemName)
-        
-    else
-        print("Enchantment type does not grant experience.")
+
     end
 end
 

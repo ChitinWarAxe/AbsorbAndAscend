@@ -50,8 +50,7 @@ local function handleItemUsage(item, actor)
 
     local enchantment = getEnchantment(item)
     if enchantment then
-        if (enchantment.type == 4) then
-            print('scroll oder so')
+        if (enchantment.type == 4) then -- ignore scrolls
             return
         end
 
@@ -88,7 +87,7 @@ end
 
 local function onActivationStateChanged(data)
     activationPressed = data.pressed
-    print("Activation state changed: " .. tostring(activationPressed))
+    -- print("Activation state changed: " .. tostring(activationPressed))
 end
 
 if getSettingAAAToggle() then

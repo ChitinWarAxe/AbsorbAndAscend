@@ -1,8 +1,11 @@
 name: "Absorb & Ascend"
 description: "Destroy magic weapons, armor or clothing and absorb their power, ascending in the magic school of the enchantment."
 
-settingsTitle: "Options"
-settingsDesc: "Settings for this mod"
+aaaSettingsTitle1: "Options"
+aaaSettingsDesc1: "Settings for this mod"
+
+aaaSettingsTitle2: "Options"
+aaaSettingsDesc2: "Some more settings for this mod"
 
 aaaToggleName: "Enable/Disable"
 aaaToggleDesc: "Enable or disable the ability to destroy items and absorb their power."

@@ -9,13 +9,26 @@ local aaaFuncPlayer = require('scripts.absorbandascend.aaa_func_player')
 
 local activationPressed = false
 
-local function onKeyPress(e)
-    local code = e.code
+local function isCustomKeyComboPressed()
     local key1 = getSettingCustomKey1()
     local key2 = getSettingCustomKey2()
     
+    if not key1 and not key2 then
+        return false
+    elseif not key2 then
+        return input.isKeyPressed(key1)
+    elseif not key1 then
+        return input.isKeyPressed(key2)
+    else
+        return input.isKeyPressed(key1) and input.isKeyPressed(key2)
+    end
+end
+
+local function onKeyPress(e)
+    local code = e.code
+    
     if getSettingCustomKeyToggle() then
-        if (code == key1) or (code == key2) then
+        if isCustomKeyComboPressed() then
             activationPressed = true
             core.sendGlobalEvent('activationStateChanged', {pressed = true})
         end
@@ -32,11 +45,9 @@ end
 
 local function onKeyRelease(e)
     local code = e.code
-    local key1 = getSettingCustomKey1()
-    local key2 = getSettingCustomKey2()
     
     if getSettingCustomKeyToggle() then
-        if (code == key1) or (code == key2) then
+        if not isCustomKeyComboPressed() then
             activationPressed = false
             core.sendGlobalEvent('activationStateChanged', {pressed = false})
         end
@@ -112,10 +123,6 @@ local function calculateAndApplyExperience(data)
     else
         print("Enchantment type does not grant experience.")
     end
-end
-
-local function printEnchantmentInfo(data)
-
 end
 
 return {

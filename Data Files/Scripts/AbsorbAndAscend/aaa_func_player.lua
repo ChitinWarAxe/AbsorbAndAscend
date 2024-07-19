@@ -13,11 +13,13 @@ function getSettingCustomKeyToggle()
 end
 
 function getSettingCustomKey1()
-    return input.KEY[settings:get("aaaCustomKey1")] or 0
+    local key = settings:get("aaaCustomKey1")
+    return key ~= "" and input.KEY[key] or nil
 end
 
 function getSettingCustomKey2()
-    return input.KEY[settings:get("aaaCustomKey2")] or 0
+    local key = settings:get("aaaCustomKey2")
+    return key ~= "" and input.KEY[key] or nil
 end
 
 function itemAbsorbAlert(name)

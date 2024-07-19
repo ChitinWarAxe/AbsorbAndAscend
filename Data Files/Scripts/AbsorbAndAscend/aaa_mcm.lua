@@ -10,9 +10,9 @@ I.Settings.registerPage {
 I.Settings.registerGroup {
     key = "SettingsAbsorbAndAscend2",
     l10n = "AbsorbAndAscend",
-    name = "settingsTitle",
+    name = "aaaSettingsTitle2",
     page = "AbsorbAndAscend",
-    description = "settingsDesc",
+    description = "aaaSettingsDesc2",
     permanentStorage = false,
     settings = {
         {
@@ -26,14 +26,14 @@ I.Settings.registerGroup {
             key = "aaaCustomKey1",
             name = "aaaCustomKey1Name",
             description = "aaaCustomKey1Desc",
-            default = "KEY.X",
+            default = "H",
             renderer = "textLine"
         },
         {
             key = "aaaCustomKey2",
             name = "aaaCustomKey2Name",
             description = "aaaCustomKey2Desc",
-            default = "KEY.Y",
+            default = "B",
             renderer = "textLine"
         },
     }

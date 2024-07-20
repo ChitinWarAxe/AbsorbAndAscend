@@ -62,9 +62,9 @@ local function getCalculatedTotalExperience(data)
     
     local totalExp = 0
     
-    local enchantSkill = types.NPC.stats.skills.enchant(self).modified
-    local luck = types.NPC.stats.attributes.luck(self).modified
-    local intelligence = types.NPC.stats.attributes.intelligence(self).modified
+    local enchantSkill = math.min(types.NPC.stats.skills.enchant(self).modified, 100)
+    local luck = math.min(types.NPC.stats.attributes.luck(self).modified, 100)
+    local intelligence = math.min(types.NPC.stats.attributes.intelligence(self).modified, 100)
     local attributeMultiplier = 1 + ((((intelligence+enchantSkill)/5)+(luck/10))/100)
 
     if data.enchantmentType == 1 or data.enchantmentType == 2 then -- on use, on strike enchantments

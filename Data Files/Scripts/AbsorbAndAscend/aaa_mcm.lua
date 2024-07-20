@@ -10,9 +10,25 @@ I.Settings.registerPage {
 I.Settings.registerGroup {
     key = "SettingsAbsorbAndAscend2",
     l10n = "AbsorbAndAscend",
-    name = "aaaSettingsTitle2",
+    name = "aaaSettingsName2",
     page = "AbsorbAndAscend",
-    description = "aaaSettingsDesc2",
+    permanentStorage = false,
+    settings = {
+        {
+            key = "aaaRawXPCap",
+            name = "aaaRawXPCapName",
+            description = "aaaRawXPCapDesc",
+            default = 75,
+            renderer = "number"
+        }
+    }
+}
+
+I.Settings.registerGroup {
+    key = "SettingsAbsorbAndAscend3",
+    l10n = "AbsorbAndAscend",
+    name = "aaaSettingsName3",
+    page = "AbsorbAndAscend",
     permanentStorage = false,
     settings = {
         {

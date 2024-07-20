@@ -8,6 +8,10 @@ local settings = storage.playerSection("SettingsAbsorbAndAscend2")
 
 local L = core.l10n("AbsorbAndAscend")
 
+function getSettingXPCap()
+    return settings:get("aaaRawXPCap")
+end
+
 function getSettingCustomKeyToggle()
     return settings:get("aaaCustomKeyToggle")
 end
@@ -23,6 +27,6 @@ function getSettingCustomKey2()
 end
 
 function itemAbsorbAlert(name)
-    ui.showMessage(string.format(L("aaaAbsorbMessage", {name = name})))
+    ui.showMessage(string.format(L("aaaAbsorbSuccess", {name = name})))
     ambient.playSound("enchant success")   
 end

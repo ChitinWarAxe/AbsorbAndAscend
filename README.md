@@ -21,11 +21,11 @@ The experience is calculated as follows:
 
 _Item charge/20 + Enchantment cost/2, multiplied with 1 + (((intelligence+enchant)/5 + luck/10)/100)_
 
+The raw experience calculated from the charge and cost is capped at 75 (Configurable), due to very high charges of some artifacts and unique items.
+
 This calculation is very close to the [“enchantment chance”](https://en.uesp.net/wiki/Morrowind:Enchant#Enchanting_items). However, there is no chance of failure; the process is always successful.
 
-It should be noted that the engine interprets gained experience differently based on the magic school. For example, destruction experience gains are smaller, while experience gain for conjuration is more impactful.
-
-Also, due to how the game engine works, it isn't possible to gain more than one level at once.
+The actual experience gain is affected by the skill being major, minor or miscellaneous.
 
 ## Development
 

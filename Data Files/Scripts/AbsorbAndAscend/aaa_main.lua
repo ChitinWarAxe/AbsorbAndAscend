@@ -69,7 +69,10 @@ local function getCalculatedTotalExperience(data)
 
     if data.enchantmentType == 1 or data.enchantmentType == 2 then -- on use, on strike enchantments
     
-        local itemExpValue = data.charge/20 + data.cost/2
+        --print("setting xp cap: " .. getSettingXPCap())
+    
+        local itemExpValue = math.min(data.charge/20 + data.cost/2, getSettingXPCap())
+        --print("item xp: " .. itemExpValue)
         totalExp = itemExpValue * attributeMultiplier
         
     elseif data.enchantmentType == 3 then -- constant effect enchantments
@@ -89,17 +92,21 @@ local function calculateAndApplyExperience(data)
         
         local expPerEffect = calculatedTotalExperience / #data.effects
         
-        print("Experience per Effect: " .. expPerEffect)
+        --print("Experience per Effect: " .. expPerEffect)
         
         for i, effect in ipairs(data.effects) do
-        
-            local skill = types.NPC.stats.skills[effect.school](self)
 
-            I.SkillProgression.skillUsed(effect.school, {
-                skillGain = expPerEffect,
-                useType = 0
-            })
-
+            local roundedExp = math.floor(expPerEffect)
+            --print('roundedexp: ' .. roundedExp .. ' for ' .. effect.school)
+            
+            for j = 1, roundedExp do
+                --print('exp gain ' .. effect.school)
+                I.SkillProgression.skillUsed(effect.school, {
+                    skillGain = 1,
+                    useType = 0
+                })
+            end
+            
             I.SkillProgression.skillUsed('enchant', {
                 skillGain = 1,
                 useType = 0

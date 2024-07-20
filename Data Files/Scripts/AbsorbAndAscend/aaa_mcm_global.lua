@@ -1,11 +1,10 @@
 local I = require('openmw.interfaces')
 
 I.Settings.registerGroup {
-    key = "SettingsAbsorbAndAscend",
+    key = "SettingsAbsorbAndAscend1",
     l10n = "AbsorbAndAscend",
-    name = "aaaSettingsTitle1",
+    name = "aaaSettingsName1",
     page = "AbsorbAndAscend",
-    description = "aaaSettingsDesc1",
     permanentStorage = false,
     settings = {
         {

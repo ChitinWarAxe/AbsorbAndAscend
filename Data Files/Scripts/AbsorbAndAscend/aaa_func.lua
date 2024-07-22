@@ -1,13 +1,13 @@
 local storage = require('openmw.storage')
 
-local settings = storage.globalSection('SettingsAbsorbAndAscend')
+local settings1 = storage.globalSection('SettingsAbsorbAndAscend1')
 
 function getSettingAAAToggle()
-    return settings:get("aaaToggle")
+    return settings1:get("aaaToggle")
 end
 
 function getSettingProtectedItems()
-    return settings:get("aaaProtectedItems")
+    return settings1:get("aaaProtectedItems")
 end
 
 function isItemProtected(itemRecordId)

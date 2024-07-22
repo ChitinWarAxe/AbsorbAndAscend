@@ -25,5 +25,5 @@ aaaCustomKey1Desc: "Set your custom key 1 here."
 aaaCustomKey2Name: "Custom key 2"
 aaaCustomKey2Desc: "Set your custom key 2 here."
 
-aaaAbsorbSuccess: "You destroyed your {name} and absorbed its power!"
-aaaAbsorbFail: "You failed absorbing the power of your {name}!"
+aaaAbsorbSuccess: "You destroyed {name} and absorbed its power!"
+aaaAbsorbFail: "You failed absorbing the power of {name}!"

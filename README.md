@@ -32,7 +32,5 @@ The actual experience gain is affected by the skill being major, minor or miscel
 Possible future features to implement:
 
 * Enabling absorption of enchanted thrown weapons and ammo
-* Requiring a certain level of enchant to use the absorption ability, or:
-* Add the chance of failure with a very low enchant skill
 
 **I hope you'll enjoy my mod!**

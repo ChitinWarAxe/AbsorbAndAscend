@@ -52,13 +52,9 @@ local function handleItemUsage(item, actor)
             local magicEffect = core.magic.effects.records[effect.id]
             table.insert(enchantmentInfo.effects, {
                 id = effect.id,
-                school = magicEffect.school,
-                magnitudeMin = effect.magnitudeMin,
-                magnitudeMax = effect.magnitudeMax,
-                duration = effect.duration,
-                area = effect.area,
-                affectedAttribute = effect.affectedAttribute,
-                affectedSkill = effect.affectedSkill
+                school = magicEffect.school
+                --affectedAttribute = effect.affectedAttribute,
+                --affectedSkill = effect.affectedSkill
             })
         end
         actor:sendEvent('enchantmentUsed', enchantmentInfo)

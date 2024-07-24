@@ -29,6 +29,13 @@ I.Settings.registerGroup {
             renderer = "number"
         },
         {
+            key = "aaaConstantEffectXPPerEffect",
+            name = "aaaConstantEffectXPPerEffectName",
+            description = "aaaConstantEffectXPPerEffectDesc",
+            default = 5,
+            renderer = "number"
+        },
+        {
             key = "aaaFailToggle",
             name = "aaaFailToggleName",
             description = "aaaFailToggleDesc",

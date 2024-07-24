@@ -17,20 +17,28 @@ local function getSettingXPCap()
     return settings2:get("aaaRawXPCap")
 end
 
+local function getSettingConstantEffectXPBase()
+    return settings2:get("aaaConstantEffectXPBase")
+end
+
+local function getSettingConstantEffectXPPerEffect()
+    return settings2:get("aaaConstantEffectXPPerEffect")
+end
+
 local function getSettingFailToggle()
     return settings2:get("aaaFailToggle")
 end
 
-function getSettingCustomKeyToggle()
+local function getSettingCustomKeyToggle()
     return settings3:get("aaaCustomKeyToggle")
 end
 
-function getSettingCustomKey1()
+local function getSettingCustomKey1()
     local key = settings3:get("aaaCustomKey1")
     return key ~= "" and input.KEY[key] or nil
 end
 
-function getSettingCustomKey2()
+local function getSettingCustomKey2()
     local key = settings3:get("aaaCustomKey2")
     return key ~= "" and input.KEY[key] or nil
 end
@@ -77,7 +85,6 @@ local function checkAbsorbSuccess(itemXP)
     print("rand: " .. rand)
     
     if rand < failChance*10 then
-        print("fail!")
         success = false
     end
     
@@ -91,7 +98,7 @@ local function getItemXP(data)
     if data.enchantmentType == 1 or data.enchantmentType == 2 then -- on use, on strike enchantments
         itemXP = math.min(data.charge/20 + data.cost/2, getSettingXPCap())
     elseif data.enchantmentType == 3 then -- constant effect enchantments
-        itemXP = 20 + (#data.effects * 5)
+        itemXP = getSettingConstantEffectXPBase() + (#data.effects * getSettingConstantEffectXPPerEffect())
     end
     
     return itemXP
@@ -107,9 +114,10 @@ local function getModifiedXP(itemXP)
 end
 
 return {
-    getSettingXPCap = getSettingXPCap,
+    getSettingCustomKeyToggle = getSettingCustomKeyToggle,
+    getSettingCustomKey1 = getSettingCustomKey1,
+    getSettingCustomKey2 = getSettingCustomKey2,
     getSettingFailToggle = getSettingFailToggle,
-    getFailChance = getFailChance,
     checkAbsorbSuccess = checkAbsorbSuccess,
     getItemXP = getItemXP,
     getModifiedXP = getModifiedXP,

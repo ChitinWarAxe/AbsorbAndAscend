@@ -17,9 +17,12 @@ aaaRawXPCapName: "Raw Experience Limit"
 aaaRawXPCapDesc: "The maximum experience that can be gained from a single item."
 
 aaaConstantEffectXPBaseName: "Constant Effect Experience Base Value"
-aaaConstantEffectXPBaseDesc: "Instead of being calculated from the charge and cost, constant effect enchantment experience uses a set value as a base, then adds 5 experience for each enchantment effect."
+aaaConstantEffectXPBaseDesc: "Instead of being calculated from the charge and cost, constant effect enchantment experience uses a set value as a base, then adds experience for each enchantment effect."
 
-aaaFailToggleName: "Enable/Disable Fail chance"
+aaaConstantEffectXPPerEffectName: "Constant Effect Experience Bonus per Effect"
+aaaConstantEffectXPPerEffectDesc: "Bonus experience per enchantment effect. Only affects constant effect enchantments."
+
+aaaFailToggleName: "Enable/Disable Fail Chance"
 aaaFailToggleDesc: "Enable or disable the chance to fail, depending on your intelligence, enchant skill, luck and the potential experience gained from the item."
 
 aaaCustomKeyToggleName: "Use custom keys"

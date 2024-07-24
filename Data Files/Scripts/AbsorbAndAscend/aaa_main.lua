@@ -8,8 +8,8 @@ local f = require('scripts.absorbandascend.aaa_func_player')
 local activationPressed = false
 
 local function isCustomKeyComboPressed()
-    local key1 = getSettingCustomKey1()
-    local key2 = getSettingCustomKey2()
+    local key1 = f.getSettingCustomKey1()
+    local key2 = f.getSettingCustomKey2()
     
     if not key1 and not key2 then
         return false
@@ -25,7 +25,7 @@ end
 local function onKeyPress(e)
     local code = e.code
     
-    if getSettingCustomKeyToggle() then
+    if f.getSettingCustomKeyToggle() then
         if isCustomKeyComboPressed() then
             activationPressed = true
             core.sendGlobalEvent('activationStateChanged', {pressed = true})
@@ -44,7 +44,7 @@ end
 local function onKeyRelease(e)
     local code = e.code
     
-    if getSettingCustomKeyToggle() then
+    if f.getSettingCustomKeyToggle() then
         if not isCustomKeyComboPressed() then
             activationPressed = false
             core.sendGlobalEvent('activationStateChanged', {pressed = false})
@@ -67,16 +67,13 @@ end
 
 local function calculateAndApplyExperience(data)
 
-    print("calculateAndApplyExperience!")
-
     local itemXP = f.getItemXP(data)
     local absorbSuccess = true
 
     if f.getSettingFailToggle() then
-    
-        print("check for success!")
-    
+
         absorbSuccess = f.checkAbsorbSuccess(itemXP)
+
         if absorbSuccess == false then
             f.itemAbsorbFailAlert(data.itemName)
         end
@@ -89,17 +86,12 @@ local function calculateAndApplyExperience(data)
         local modifiedXP = f.getModifiedXP(itemXP)
     
         if modifiedXP ~= 0 then
-        
-            print("xp was modified!")
-            
+
             local xpPerEffect = modifiedXP / #data.effects
-            
-            -- print("Experience per Effect: " .. xpPerEffect)
             
             for i, effect in ipairs(data.effects) do
     
                 local roundedExp = math.floor(xpPerEffect)
-                
                 for j = 1, roundedExp do progressSkill(effect.school, 1) end
                 
                 progressSkill('enchant', 1)

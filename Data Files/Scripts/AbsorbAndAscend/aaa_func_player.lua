@@ -53,7 +53,7 @@ end
 
 local function itemAbsorbFailAlert(name)
     ui.showMessage(string.format(L("aaaAbsorbFail", {name = name})))
-    ambient.playSound("enchant success")   
+    ambient.playSound("enchant fail")   
 end
 
 local function getPlayerIntelligence()

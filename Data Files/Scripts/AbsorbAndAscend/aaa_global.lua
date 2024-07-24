@@ -1,29 +1,17 @@
 local I = require('openmw.interfaces')
 local types = require('openmw.types')
 local core = require('openmw.core')
-local aaaFunc = require('scripts.absorbandascend.aaa_func')
+local f = require('scripts.absorbandascend.aaa_func')
 
 local activationPressed = false
 
-local function getEnchantment(item)
-    local record = item.type.record(item)
-    if record and record.enchant then
-        return core.magic.enchantments.records[record.enchant]
-    end
-    return nil
-end
-
-local function isThrownWeaponOrAmmo(item)
-    if item.type == types.Weapon then
-        local weaponType = types.Weapon.record(item).type
-        -- Weapon types: 11 = Thrown, 12 = Arrow, 13 = Bolt
-        return weaponType == 11 or weaponType == 12 or weaponType == 13
-    end
-    return false
+local function onActivationStateChanged(data)
+    activationPressed = data.pressed
+    print("Activation state changed: " .. tostring(activationPressed))
 end
 
 local function handleItemUsage(item, actor)
-    if not getSettingAAAToggle() then
+    if not f.getSettingAAAToggle() then
         return
     end
     
@@ -31,7 +19,11 @@ local function handleItemUsage(item, actor)
     local itemRecord = itemType.record(item)
     local itemName = itemRecord.name
 
-    if isItemProtected(itemRecord.id) then
+    if f.isThrownWeaponOrAmmo(item) then
+        return  -- Ignore thrown weapons, arrows, and bolts
+    end
+
+    if f.isItemProtected(itemRecord.id) then
         return
     end    
     
@@ -39,16 +31,12 @@ local function handleItemUsage(item, actor)
         return
     end
 
-    if isThrownWeaponOrAmmo(item) then
-        return  -- Ignore thrown weapons, arrows, and bolts
-    end
-
     local enchantmentInfo = {
         itemName = itemName,
         itemType = tostring(itemType),
     }
 
-    local enchantment = getEnchantment(item)
+    local enchantment = f.getEnchantment(item)
     if enchantment then
         if (enchantment.type == 4) then -- ignore scrolls
             return
@@ -79,18 +67,13 @@ local function handleItemUsage(item, actor)
     end
 end
 
-if getSettingAAAToggle() then
+if f.getSettingAAAToggle() then
     I.ItemUsage.addHandlerForType(types.Weapon, handleItemUsage)
     I.ItemUsage.addHandlerForType(types.Armor, handleItemUsage)
     I.ItemUsage.addHandlerForType(types.Clothing, handleItemUsage)
 end
 
-local function onActivationStateChanged(data)
-    activationPressed = data.pressed
-    print("Activation state changed: " .. tostring(activationPressed))
-end
-
-if getSettingAAAToggle() then
+if f.getSettingAAAToggle() then
     return {
         eventHandlers = {
             activationStateChanged = onActivationStateChanged

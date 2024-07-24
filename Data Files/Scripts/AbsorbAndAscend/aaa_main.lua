@@ -1,8 +1,6 @@
-local self = require('openmw.self')
 local core = require('openmw.core')
 local types = require('openmw.types')
 local input = require('openmw.input')
-local I = require('openmw.interfaces')
 local f = require('scripts.absorbandascend.aaa_func_player')
 
 local activationPressed = false
@@ -58,13 +56,6 @@ local function onKeyRelease(e)
     end
 end
 
-local function progressSkill(skill, xp)
-    I.SkillProgression.skillUsed(skill, {
-        skillGain = xp,
-        useType = 0
-    })
-end
-
 local function calculateAndApplyExperience(data)
 
     local itemXP = f.getItemXP(data)
@@ -80,9 +71,7 @@ local function calculateAndApplyExperience(data)
     end
     
     if absorbSuccess then
-    
-        print("absorb will succeed.")
-    
+
         local modifiedXP = f.getModifiedXP(itemXP)
     
         if modifiedXP ~= 0 then
@@ -92,9 +81,9 @@ local function calculateAndApplyExperience(data)
             for i, effect in ipairs(data.effects) do
     
                 local roundedExp = math.floor(xpPerEffect)
-                for j = 1, roundedExp do progressSkill(effect.school, 1) end
+                for j = 1, roundedExp do f.progressSkill(effect.school, 1) end
                 
-                progressSkill('enchant', 1)
+                f.progressSkill('enchant', 1)
                     
             end
             

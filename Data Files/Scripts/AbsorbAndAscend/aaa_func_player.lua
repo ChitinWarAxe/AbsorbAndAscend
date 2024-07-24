@@ -5,6 +5,7 @@ local core = require('openmw.core')
 local ui = require('openmw.ui')
 local ambient = require('openmw.ambient')
 local types = require('openmw.types')
+local I = require('openmw.interfaces')
 
 local settings2 = storage.playerSection("SettingsAbsorbAndAscend2")
 local settings3 = storage.playerSection("SettingsAbsorbAndAscend3")
@@ -113,6 +114,13 @@ local function getModifiedXP(itemXP)
     return modifiedXP
 end
 
+local function progressSkill(skill, xp)
+    I.SkillProgression.skillUsed(skill, {
+        skillGain = xp,
+        useType = 0
+    })
+end
+
 return {
     getSettingCustomKeyToggle = getSettingCustomKeyToggle,
     getSettingCustomKey1 = getSettingCustomKey1,
@@ -122,5 +130,6 @@ return {
     getItemXP = getItemXP,
     getModifiedXP = getModifiedXP,
     itemAbsorbSuccessAlert = itemAbsorbSuccessAlert,
-    itemAbsorbFailAlert = itemAbsorbFailAlert
+    itemAbsorbFailAlert = itemAbsorbFailAlert,
+    progressSkill = progressSkill
 }

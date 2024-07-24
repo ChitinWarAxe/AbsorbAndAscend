@@ -87,7 +87,7 @@ end
 
 local function onActivationStateChanged(data)
     activationPressed = data.pressed
-    -- print("Activation state changed: " .. tostring(activationPressed))
+    print("Activation state changed: " .. tostring(activationPressed))
 end
 
 if getSettingAAAToggle() then

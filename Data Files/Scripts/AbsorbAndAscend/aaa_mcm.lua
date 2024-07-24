@@ -20,7 +20,21 @@ I.Settings.registerGroup {
             description = "aaaRawXPCapDesc",
             default = 75,
             renderer = "number"
-        }
+        },
+        {
+            key = "aaaConstantEffectXPBase",
+            name = "aaaConstantEffectXPBaseName",
+            description = "aaaConstantEffectXPBaseDesc",
+            default = 20,
+            renderer = "number"
+        },
+        {
+            key = "aaaFailToggle",
+            name = "aaaFailToggleName",
+            description = "aaaFailToggleDesc",
+            default = true,
+            renderer = "checkbox"
+        },
     }
 }
 

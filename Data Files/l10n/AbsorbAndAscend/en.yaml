@@ -3,11 +3,11 @@ description: "Destroy magic weapons, armor or clothing and absorb their power, a
 
 aaaSettingsName1: "General Settings"
 
-aaaSettingsName2: "Attribute Settings"
+aaaSettingsName2: "Experience Settings"
 
 aaaSettingsName3: "Custom Key Settings"
 
-aaaToggleName: "Enable/Disable"
+aaaToggleName: "Enable/Disable Mod"
 aaaToggleDesc: "Enable or disable the ability to destroy items and absorb their power."
 
 aaaProtectedItemsName: "Protected Items"
@@ -15,6 +15,12 @@ aaaProtectedItemsDesc: "List of IDs of items that cannot be destroyed, for examp
 
 aaaRawXPCapName: "Raw Experience Limit"
 aaaRawXPCapDesc: "The maximum experience that can be gained from a single item."
+
+aaaConstantEffectXPBaseName: "Constant Effect Experience Base Value"
+aaaConstantEffectXPBaseDesc: "Instead of being calculated from the charge and cost, constant effect enchantment experience uses a set value as a base, then adds 5 experience for each enchantment effect."
+
+aaaFailToggleName: "Enable/Disable Fail chance"
+aaaFailToggleDesc: "Enable or disable the chance to fail, depending on your intelligence, enchant skill, luck and the potential experience gained from the item."
 
 aaaCustomKeyToggleName: "Use custom keys"
 aaaCustomKeyToggleDesc: "Instead of Shift+Alt, use the keys configured below. If a key is left empty, it will be ignored."

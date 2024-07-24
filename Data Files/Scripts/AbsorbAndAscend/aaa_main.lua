@@ -3,7 +3,7 @@ local core = require('openmw.core')
 local types = require('openmw.types')
 local input = require('openmw.input')
 local I = require('openmw.interfaces')
-local aaaFuncPlayer = require('scripts.absorbandascend.aaa_func_player')
+local f = require('scripts.absorbandascend.aaa_func_player')
 
 local activationPressed = false
 
@@ -58,64 +58,57 @@ local function onKeyRelease(e)
     end
 end
 
-local function getCalculatedTotalExperience(data)
-    
-    local totalExp = 0
-    
-    local enchantSkill = math.min(types.NPC.stats.skills.enchant(self).modified, 100)
-    local luck = math.min(types.NPC.stats.attributes.luck(self).modified, 100)
-    local intelligence = math.min(types.NPC.stats.attributes.intelligence(self).modified, 100)
-    local attributeMultiplier = 1 + ((((intelligence+enchantSkill)/5)+(luck/10))/100)
-
-    if data.enchantmentType == 1 or data.enchantmentType == 2 then -- on use, on strike enchantments
-    
-        --print("setting xp cap: " .. getSettingXPCap())
-    
-        local itemExpValue = math.min(data.charge/20 + data.cost/2, getSettingXPCap())
-        --print("item xp: " .. itemExpValue)
-        totalExp = itemExpValue * attributeMultiplier
-        
-    elseif data.enchantmentType == 3 then -- constant effect enchantments
-        
-        totalExp = (20 + (#data.effects * 5) ) * attributeMultiplier
-        
-    end
-    
-    return totalExp
+local function progressSkill(skill, xp)
+    I.SkillProgression.skillUsed(skill, {
+        skillGain = xp,
+        useType = 0
+    })
 end
 
 local function calculateAndApplyExperience(data)
 
-    local calculatedTotalExperience = getCalculatedTotalExperience(data)
+    print("calculateAndApplyExperience!")
 
-    if calculatedTotalExperience ~= 0 then
-        
-        local expPerEffect = calculatedTotalExperience / #data.effects
-        
-        --print("Experience per Effect: " .. expPerEffect)
-        
-        for i, effect in ipairs(data.effects) do
+    local itemXP = f.getItemXP(data)
+    local absorbSuccess = true
 
-            local roundedExp = math.floor(expPerEffect)
-            --print('roundedexp: ' .. roundedExp .. ' for ' .. effect.school)
+    if f.getSettingFailToggle() then
+    
+        print("check for success!")
+    
+        absorbSuccess = f.checkAbsorbSuccess(itemXP)
+        if absorbSuccess == false then
+            f.itemAbsorbFailAlert(data.itemName)
+        end
+    end
+    
+    if absorbSuccess then
+    
+        print("absorb will succeed.")
+    
+        local modifiedXP = f.getModifiedXP(itemXP)
+    
+        if modifiedXP ~= 0 then
+        
+            print("xp was modified!")
             
-            for j = 1, roundedExp do
-                --print('exp gain ' .. effect.school)
-                I.SkillProgression.skillUsed(effect.school, {
-                    skillGain = 1,
-                    useType = 0
-                })
+            local xpPerEffect = modifiedXP / #data.effects
+            
+            -- print("Experience per Effect: " .. xpPerEffect)
+            
+            for i, effect in ipairs(data.effects) do
+    
+                local roundedExp = math.floor(xpPerEffect)
+                
+                for j = 1, roundedExp do progressSkill(effect.school, 1) end
+                
+                progressSkill('enchant', 1)
+                    
             end
             
-            I.SkillProgression.skillUsed('enchant', {
-                skillGain = 1,
-                useType = 0
-            })
-
-        end
-        
-        itemAbsorbAlert(data.itemName)
-
+            f.itemAbsorbSuccessAlert(data.itemName)
+            
+        end        
     end
 end
 

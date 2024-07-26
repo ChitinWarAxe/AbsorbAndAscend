@@ -1,7 +1,6 @@
 local I = require('openmw.interfaces')
 local types = require('openmw.types')
 local core = require('openmw.core')
-local f = require('scripts.absorbandascend.aaa_func')
 
 local activationPressed = false
 
@@ -11,7 +10,7 @@ local function onActivationStateChanged(data)
 end
 
 local function handleItemUsage(item, actor)
-    if not f.getSettingAAAToggle() then
+    if not I.aaaGlobalUtil.getSettingAAAToggle() then
         return
     end
     
@@ -19,11 +18,11 @@ local function handleItemUsage(item, actor)
     local itemRecord = itemType.record(item)
     local itemName = itemRecord.name
 
-    if f.isThrownWeaponOrAmmo(item) then
+    if I.aaaGlobalUtil.isThrownWeaponOrAmmo(item) then
         return  -- Ignore thrown weapons, arrows, and bolts
     end
 
-    if f.isItemProtected(itemRecord.id) then
+    if I.aaaGlobalUtil.isItemProtected(itemRecord.id) then
         return
     end    
     
@@ -36,7 +35,7 @@ local function handleItemUsage(item, actor)
         itemType = tostring(itemType),
     }
 
-    local enchantment = f.getEnchantment(item)
+    local enchantment = I.aaaGlobalUtil.getEnchantment(item)
     if enchantment then
         if (enchantment.type == 4) then -- ignore scrolls
             return
@@ -63,13 +62,13 @@ local function handleItemUsage(item, actor)
     end
 end
 
-if f.getSettingAAAToggle() then
+if I.aaaGlobalUtil.getSettingAAAToggle() then
     I.ItemUsage.addHandlerForType(types.Weapon, handleItemUsage)
     I.ItemUsage.addHandlerForType(types.Armor, handleItemUsage)
     I.ItemUsage.addHandlerForType(types.Clothing, handleItemUsage)
 end
 
-if f.getSettingAAAToggle() then
+if I.aaaGlobalUtil.getSettingAAAToggle() then
     return {
         eventHandlers = {
             activationStateChanged = onActivationStateChanged

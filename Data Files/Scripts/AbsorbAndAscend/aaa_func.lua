@@ -35,8 +35,11 @@ local function getEnchantment(item)
 end
 
 return {
-    getSettingAAAToggle = getSettingAAAToggle,
-    isItemProtected = isItemProtected,
-    isThrownWeaponOrAmmo = isThrownWeaponOrAmmo,
-    getEnchantment = getEnchantment
+    interfaceName = "aaaGlobalUtil",
+    interface = {
+      getSettingAAAToggle = getSettingAAAToggle,
+      isItemProtected = isItemProtected,
+      isThrownWeaponOrAmmo = isThrownWeaponOrAmmo,
+      getEnchantment = getEnchantment
+    }
 }

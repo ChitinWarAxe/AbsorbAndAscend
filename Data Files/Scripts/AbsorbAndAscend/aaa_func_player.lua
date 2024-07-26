@@ -80,10 +80,10 @@ local function checkAbsorbSuccess(itemXP)
     
     local rand = math.random(1, 1000)
     local failChance = getFailChance(itemXP)
-    print("fail chance: " .. failChance*10)
+    --print("fail chance: " .. failChance*10)
     local success = true
     
-    print("rand: " .. rand)
+    --print("rand: " .. rand)
     
     if rand < failChance*10 then
         success = false
@@ -122,14 +122,17 @@ local function progressSkill(skill, xp)
 end
 
 return {
-    getSettingCustomKeyToggle = getSettingCustomKeyToggle,
-    getSettingCustomKey1 = getSettingCustomKey1,
-    getSettingCustomKey2 = getSettingCustomKey2,
-    getSettingFailToggle = getSettingFailToggle,
-    checkAbsorbSuccess = checkAbsorbSuccess,
-    getItemXP = getItemXP,
-    getModifiedXP = getModifiedXP,
-    itemAbsorbSuccessAlert = itemAbsorbSuccessAlert,
-    itemAbsorbFailAlert = itemAbsorbFailAlert,
-    progressSkill = progressSkill
+    interfaceName = "aaaPlayerUtil",
+    interface = {
+        getSettingCustomKeyToggle = getSettingCustomKeyToggle,
+        getSettingCustomKey1 = getSettingCustomKey1,
+        getSettingCustomKey2 = getSettingCustomKey2,
+        getSettingFailToggle = getSettingFailToggle,
+        checkAbsorbSuccess = checkAbsorbSuccess,
+        getItemXP = getItemXP,
+        getModifiedXP = getModifiedXP,
+        itemAbsorbSuccessAlert = itemAbsorbSuccessAlert,
+        itemAbsorbFailAlert = itemAbsorbFailAlert,
+        progressSkill = progressSkill
+    }
 }

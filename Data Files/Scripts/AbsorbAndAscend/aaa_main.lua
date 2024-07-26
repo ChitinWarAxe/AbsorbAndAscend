@@ -1,13 +1,14 @@
+local I = require('openmw.interfaces')
 local core = require('openmw.core')
 local types = require('openmw.types')
 local input = require('openmw.input')
-local f = require('scripts.absorbandascend.aaa_func_player')
+--local f = require('scripts.absorbandascend.aaa_func_player')
 
 local activationPressed = false
 
 local function isCustomKeyComboPressed()
-    local key1 = f.getSettingCustomKey1()
-    local key2 = f.getSettingCustomKey2()
+    local key1 = I.aaaPlayerUtil.getSettingCustomKey1()
+    local key2 = I.aaaPlayerUtil.getSettingCustomKey2()
     
     if not key1 and not key2 then
         return false
@@ -23,7 +24,7 @@ end
 local function onKeyPress(e)
     local code = e.code
     
-    if f.getSettingCustomKeyToggle() then
+    if I.aaaPlayerUtil.getSettingCustomKeyToggle() then
         if isCustomKeyComboPressed() then
             activationPressed = true
             core.sendGlobalEvent('activationStateChanged', {pressed = true})
@@ -42,7 +43,7 @@ end
 local function onKeyRelease(e)
     local code = e.code
     
-    if f.getSettingCustomKeyToggle() then
+    if I.aaaPlayerUtil.getSettingCustomKeyToggle() then
         if not isCustomKeyComboPressed() then
             activationPressed = false
             core.sendGlobalEvent('activationStateChanged', {pressed = false})
@@ -58,21 +59,21 @@ end
 
 local function calculateAndApplyExperience(data)
 
-    local itemXP = f.getItemXP(data)
+    local itemXP = I.aaaPlayerUtil.getItemXP(data)
     local absorbSuccess = true
 
-    if f.getSettingFailToggle() then
+    if I.aaaPlayerUtil.getSettingFailToggle() then
 
-        absorbSuccess = f.checkAbsorbSuccess(itemXP)
+        absorbSuccess = I.aaaPlayerUtil.checkAbsorbSuccess(itemXP)
 
         if absorbSuccess == false then
-            f.itemAbsorbFailAlert(data.itemName)
+            I.aaaPlayerUtil.itemAbsorbFailAlert(data.itemName)
         end
     end
     
     if absorbSuccess then
 
-        local modifiedXP = f.getModifiedXP(itemXP)
+        local modifiedXP = I.aaaPlayerUtil.getModifiedXP(itemXP)
     
         if modifiedXP ~= 0 then
 
@@ -81,13 +82,13 @@ local function calculateAndApplyExperience(data)
             for i, effect in ipairs(data.effects) do
     
                 local roundedExp = math.floor(xpPerEffect)
-                for j = 1, roundedExp do f.progressSkill(effect.school, 1) end
+                for j = 1, roundedExp do I.aaaPlayerUtil.progressSkill(effect.school, 1) end
                 
-                f.progressSkill('enchant', 1)
+                I.aaaPlayerUtil.progressSkill('enchant', 1)
                     
             end
             
-            f.itemAbsorbSuccessAlert(data.itemName)
+            I.aaaPlayerUtil.itemAbsorbSuccessAlert(data.itemName)
             
         end        
     end

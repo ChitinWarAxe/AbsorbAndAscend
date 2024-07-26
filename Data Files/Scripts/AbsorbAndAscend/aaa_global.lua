@@ -6,7 +6,7 @@ local activationPressed = false
 
 local function onActivationStateChanged(data)
     activationPressed = data.pressed
-    print("Activation state changed: " .. tostring(activationPressed))
+    --print("Activation state changed: " .. tostring(activationPressed))
 end
 
 local function handleItemUsage(item, actor)

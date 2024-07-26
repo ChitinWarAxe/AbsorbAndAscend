@@ -27,6 +27,10 @@ This calculation is very close to the [“enchantment chance”](https://en.uesp
 
 The actual experience gain is affected by the skill being major, minor or miscellaneous.
 
+In addition, a chance to fail is enabled by default. The fail chance is calculated as follows:
+
+(100 - (( intelligence + enchant) + luck/10)) + item experience/2
+
 ## Development
 
 Possible future features to implement:
